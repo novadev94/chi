@@ -2,15 +2,15 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/haitien/chi/service"
+	"github.com/haitien/chi/service/binance"
 	"net/http"
 )
 
 type MyApi struct {
-	service *service.Service
+	service *binance.Service
 }
 
-func NewApi(service *service.Service) *MyApi {
+func NewApi(service *binance.Service) *MyApi {
 	return &MyApi{
 		service: service,
 	}

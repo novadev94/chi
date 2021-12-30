@@ -1,4 +1,4 @@
-package service
+package binance
 
 import (
 	"fmt"
@@ -56,7 +56,7 @@ type TokenPrice struct {
 func (a *Service) GenData(timeframe string) error {
 	var symbolsResp SymbolsResp
 	params := map[string]string{}
-	err := common.MakeGetRequest(symbolsUrl, nil, params, 5*time.Second, &symbolsResp)
+	err := common.MakeGetRequest(symbolsUrl, params, 5*time.Second, &symbolsResp)
 	if err != nil {
 		fmt.Errorf("%s", err.Error())
 		return err
@@ -78,7 +78,7 @@ func (a *Service) GenData(timeframe string) error {
 			"interval": timeframe,
 		}
 		var klinesResp [][]interface{}
-		err := common.MakeGetRequest(url, nil, params, 5*time.Second, &klinesResp)
+		err := common.MakeGetRequest(url, params, 5*time.Second, &klinesResp)
 		if err != nil {
 			continue
 		}

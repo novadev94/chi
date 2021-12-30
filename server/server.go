@@ -2,12 +2,23 @@ package server
 
 import (
 	"fmt"
+	"github.com/go-playground/form/v4"
+	"github.com/go-playground/mold/v4/modifiers"
+	"github.com/go-playground/validator/v10"
 	"github.com/haitien/chi/api"
 	"github.com/haitien/chi/inject"
 	"net/http"
+	"regexp"
 	"time"
 
 	"github.com/gin-gonic/gin"
+)
+
+var (
+	conform   = modifiers.New()
+	decoder   = form.NewDecoder()
+	validate  = validator.New()
+	pathRegex = regexp.MustCompile(`^\/?([A-z\d]+)/([A-z\d]+)/([A-z\d]+)/([A-z\d]+)\/?$`)
 )
 
 type Server struct {
@@ -31,12 +42,17 @@ func NewServer() *Server {
 }
 
 func (a *Server) registerRoutes() {
-	injector := inject.NewInjector()
+	injector := inject.NewInjector("mainnet")
 	// TODO provide services then register routes
-	service := injector.ProvideService()
-	controller := api.NewApi(service)
+	binanceService := injector.ProvideService()
+	binanceApi := api.NewApi(binanceService)
+
+	lendingApi := injector.ProvideLendingApi()
+
 	v1 := a.engine.Group("v1")
-	v1.GET("tokenPrice", controller.TokenPrice)
+	v1.GET("tokenPrice", binanceApi.TokenPrice)
+
+	v1.GET("lending", lendingApi.Overview)
 }
 
 func (a *Server) Serve(port string) error {

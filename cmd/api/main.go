@@ -1,6 +1,8 @@
 package main
 
-import "github.com/haitien/chi/server"
+import (
+	"github.com/haitien/chi/server"
+)
 
 func main() {
 	server := server.NewServer()

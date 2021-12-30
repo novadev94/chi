@@ -24,6 +24,8 @@ func NewDatabase() (*gorm.DB, error) {
 
 	db.AutoMigrate(
 		&TokenPriceModel{},
+		&LendingAaveInterestRate{},
+		&LendingAaveLendingData{},
 	)
 	return db, nil
 }
