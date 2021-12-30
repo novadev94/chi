@@ -3,7 +3,7 @@
 --
 -- https://tableplus.com/
 --
--- Database: dev_krystal_api
+-- Database: kikai
 -- Generation Time: 2021-12-30 18:27:35.6750
 -- -------------------------------------------------------------
 
